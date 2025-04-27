@@ -46,8 +46,10 @@ def format_example(example):
 training_data = training_data.map(format_example)
 
 # Training parameters
-train_params = SFTConfig(
+sft_config = SFTConfig(
     output_dir="./results_modified",
+    tokenizer=tokenizer,  # ✅ PASSED HERE
+    dataset_text_field="text",
     num_train_epochs=1,
     per_device_train_batch_size=1,
     gradient_accumulation_steps=1,
@@ -63,7 +65,6 @@ train_params = SFTConfig(
     group_by_length=True,
     lr_scheduler_type="constant",
     report_to="tensorboard",
-    dataset_text_field="text",
 )
 
 # LoRA parameters
@@ -81,10 +82,9 @@ model.print_trainable_parameters()
 
 # Trainer
 fine_tuning = SFTTrainer(
-    model=model,                      # use the LoRA-wrapped model
+    model=model,
     train_dataset=training_data,
-    tokenizer=tokenizer,               # FIX: this must be 'tokenizer'
-    args=train_params,
+    args=sft_config,
 )
 
 # Training
