@@ -3,3 +3,5 @@ datasets
 transformers
 peft
 trl
+tensorboard
+huggingface_hub

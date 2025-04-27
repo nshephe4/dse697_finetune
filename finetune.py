@@ -13,20 +13,32 @@ from trl import SFTTrainer, SFTConfig
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 # Model and tokenizer names
-base_model_name = "meta-llama/Llama-3.1-8B-Instruct"
+#base_model_name = "meta-llama/Llama-3.1-8B-Instruct"
 new_model_name = "llama-3.18b-policy"
 
+base_model_name = "./local_llama3_8b_instruct"  # ✅ Path to your local folder
+
+base_model = AutoModelForCausalLM.from_pretrained(
+    base_model_name,
+    device_map="cuda:0",  # or "auto" if you want transformers to automatically map GPUs
+)
+
+tokenizer = AutoTokenizer.from_pretrained(
+    base_model_name,
+    trust_remote_code=True  # Important for LLaMA models
+)
+
 # Load tokenizer
-tokenizer = AutoTokenizer.from_pretrained(base_model_name, trust_remote_code=True)
+#tokenizer = AutoTokenizer.from_pretrained(base_model_name, trust_remote_code=True)
 tokenizer.pad_token = tokenizer.eos_token
 tokenizer.padding_side = "right"
 
 # Load model
-base_model = AutoModelForCausalLM.from_pretrained(
-    base_model_name,
-    device_map="cuda:0",
-    cache_dir="llama3-models"
-)
+# base_model = AutoModelForCausalLM.from_pretrained(
+#     base_model_name,
+#     device_map="cuda:0",
+#     cache_dir="llama3-models"
+# )
 base_model.config.use_cache = False
 base_model.config.pretraining_tp = 1
 
@@ -92,4 +104,4 @@ fine_tuning = SFTTrainer(
 fine_tuning.train()
 
 # Save the fine-tuned model
-model.save_pretrained("finetuned_llama")
+model.save_pretrained("llama-3.18b-policy")
