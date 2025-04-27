@@ -48,7 +48,7 @@ training_data = training_data.map(format_example)
 # Training parameters
 sft_config = SFTConfig(
     output_dir="./results_modified",
-    tokenizer=tokenizer,  # ✅ PASSED HERE
+    #tokenizer=tokenizer,  # ✅ PASSED HERE
     dataset_text_field="text",
     num_train_epochs=1,
     per_device_train_batch_size=1,
