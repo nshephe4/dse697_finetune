@@ -83,6 +83,7 @@ model.print_trainable_parameters()
 # Trainer
 fine_tuning = SFTTrainer(
     model=model,
+    tokenizer = tokenizer,
     train_dataset=training_data,
     args=sft_config,
 )
