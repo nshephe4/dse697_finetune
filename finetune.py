@@ -6,22 +6,22 @@ from transformers import (
     AutoTokenizer,
     TrainingArguments
 )
-from peft import LoraConfig
+from peft import LoraConfig, get_peft_model
 from trl import SFTTrainer, SFTConfig
 
-os.environ["CUDA_VISIBLE_DEVICES"]="0"
+# Use GPU 0
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 # Model and tokenizer names
-
 base_model_name = "meta-llama/Llama-3.1-8B-Instruct"
-new_model_name = "llama-3.18b-policy" #You can give your own name for fine tuned model
+new_model_name = "llama-3.18b-policy"
 
-# Tokenizer
-llama_tokenizer = AutoTokenizer.from_pretrained(base_model_name, trust_remote_code=True)
-llama_tokenizer.pad_token = llama_tokenizer.eos_token
-llama_tokenizer.padding_side = "right"
+# Load tokenizer
+tokenizer = AutoTokenizer.from_pretrained(base_model_name, trust_remote_code=True)
+tokenizer.pad_token = tokenizer.eos_token
+tokenizer.padding_side = "right"
 
-# Model
+# Load model
 base_model = AutoModelForCausalLM.from_pretrained(
     base_model_name,
     device_map="cuda:0",
@@ -30,21 +30,27 @@ base_model = AutoModelForCausalLM.from_pretrained(
 base_model.config.use_cache = False
 base_model.config.pretraining_tp = 1
 
-# Data set
-data_name = "nace-ai/policy-alignment-verification-dataset"
-training_data = load_dataset(data_name, split="test", cache_dir="data_cache")
-# check the data
+# Load dataset
+dataset_name = "nace-ai/policy-alignment-verification-dataset"
+training_data = load_dataset(dataset_name, split="test", cache_dir="data_cache")
+
 print(training_data.shape)
-# #11 is a QA sample in English
 print(training_data[11])
 
-# Training Params
+# 🛠️ Fix the dataset: combine 'query' and 'response' into a 'text' field
+def format_example(example):
+    return {
+        "text": f"Question:\n{example['query']}\n\nAnswer:\n{example['response']}"
+    }
+
+training_data = training_data.map(format_example)
+
+# Training parameters
 train_params = SFTConfig(
     output_dir="./results_modified",
     num_train_epochs=1,
     per_device_train_batch_size=1,
     gradient_accumulation_steps=1,
-    #optim="paged_adamw_32bit",
     save_steps=50,
     logging_steps=50,
     learning_rate=4e-5,
@@ -60,27 +66,29 @@ train_params = SFTConfig(
     dataset_text_field="text",
 )
 
-from peft import get_peft_model
-# LoRA Config
-peft_parameters = LoraConfig(
+# LoRA parameters
+peft_config = LoraConfig(
     lora_alpha=8,
     lora_dropout=0.1,
     r=8,
     bias="none",
     task_type="CAUSAL_LM"
 )
-model = get_peft_model(base_model, peft_parameters)
+
+# Wrap model with PEFT (LoRA)
+model = get_peft_model(base_model, peft_config)
 model.print_trainable_parameters()
 
-# Trainer with LoRA configuration
+# Trainer
 fine_tuning = SFTTrainer(
-    model=base_model,
+    model=model,                      # use the LoRA-wrapped model
     train_dataset=training_data,
-    peft_config=peft_parameters,
-    processing_class=llama_tokenizer,
-    args=train_params
+    tokenizer=tokenizer,               # FIX: this must be 'tokenizer'
+    args=train_params,
 )
 
 # Training
 fine_tuning.train()
+
+# Save the fine-tuned model
 model.save_pretrained("finetuned_llama")
