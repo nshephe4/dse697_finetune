@@ -9,7 +9,7 @@ finetuned_model_path = "./llama-3.18b-policy"               # path to your fine-
 
 # Load models
 def load_model_and_tokenizer(path):
-    tokenizer = AutoTokenizer.from_pretrained(path, trust_remote_code=True)
+    tokenizer = AutoTokenizer.from_pretrained(base_model_path, trust_remote_code=True)
     model = AutoModelForCausalLM.from_pretrained(path, device_map="cuda:0")
     model.eval()
     return tokenizer, model
