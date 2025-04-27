@@ -4,8 +4,8 @@ from datasets import load_dataset
 from tqdm import tqdm
 
 # Paths
-base_model_path = "./llama-3.18b-policy"          # path to local base model
-finetuned_model_path = "./finetuned_llama"               # path to your fine-tuned model
+base_model_path = "./local_llama3_8b_instruct"          # path to local base model
+finetuned_model_path = "./llama-3.18b-policy"               # path to your fine-tuned model
 
 # Load models
 def load_model_and_tokenizer(path):
