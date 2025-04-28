@@ -58,9 +58,10 @@ Note: Will have to download the model and dataset locally before running on odo.
 
    ```bash
    pip install -r requirements.txt
-3. Download dataset
+3. Download model and dataset
    ```bash
-   python dataset_load.py
+      python model_load.py
+      python dataset_load.py
 5. Setup odo allocation
    ```bash
    salloc -A TRN040 -J SFT -t 1:00:00 -p batch -N 1
