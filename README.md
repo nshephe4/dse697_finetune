@@ -24,6 +24,9 @@ Note: Will have to download the model and dataset locally before running on odo.
 | File | Purpose |
 |:-----|:--------|
 | `finetune.py` | Fine-tunes the base Llama 3 model on the policy alignment dataset. |
+| `dataset_load.py` | Downloads the dataset and saves to local cache|
+| `model_load.py` | Downloads the model and saves to local|
+|`test-subset-sample-data.csv` | 5 samples of the training set|
 | `requirements.txt` | Lists the Python dependencies needed to run the scripts. |
 | `model_comparison_results.csv` | Stores evaluation results comparing the base model and fine-tuned model. |
 | `model_test.py` | Runs evaluation tests on the models and outputs results. |
