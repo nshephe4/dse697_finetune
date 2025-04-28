@@ -49,11 +49,16 @@ Note: Will have to download the model and dataset locally before running on odo.
 
    ```bash
    pip install -r requirements.txt
-
-3. Fine tune model
+3. Download dataset
+   ```bash
+   python dataset_load.py
+5. Setup odo allocation
+   ```bash
+   salloc -A TRN040 -J SFT -t 1:00:00 -p batch -N 1
+6. Fine tune model
    ```bash
    python finetune.py
 
-4. Test and eval models
+7. Test and eval models
    ```bash
    python model_test.py
