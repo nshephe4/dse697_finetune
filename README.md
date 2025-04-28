@@ -1,4 +1,7 @@
 # Policy Model Fine-Tuning and Evaluation
+## By Nathaniel Shepherd
+## For DSE 697 GenAI
+### Code referenced: https://github.com/0traced/frontier-finetuning
 
 [![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
@@ -12,6 +15,8 @@
 This project fine-tunes and evaluates the **Meta Llama 3 8B-Instruct** model for policy and procedure verification tasks.
 
 The repository contains scripts for model fine-tuning, model testing, and a CSV file with comparison results between the base and fine-tuned models.
+
+Results were saved as csv as that allowed for easier viewing than .txt
 
 Note: Will have to download the model and dataset locally before running on odo.
 
@@ -29,6 +34,7 @@ Note: Will have to download the model and dataset locally before running on odo.
 |`test-subset-sample-data.csv` | 5 samples of the training set|
 | `requirements.txt` | Lists the Python dependencies needed to run the scripts. |
 | `model_comparison_results.csv` | Stores evaluation results comparing the base model and fine-tuned model. |
+| `results_sample.csv` | Stores evaluation results comparing the base model and fine-tuned model (top10 for viewing). |
 | `model_test.py` | Runs evaluation tests on the models and outputs results. |
 
 ---
@@ -45,16 +51,17 @@ Note: Will have to download the model and dataset locally before running on odo.
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/yourrepo.git
+   git clone https://github.com/nshephe4/dse697_finetune.git
    cd yourrepo
 
 2. Download packages
 
    ```bash
    pip install -r requirements.txt
-3. Download dataset
+3. Download model and dataset
    ```bash
-   python dataset_load.py
+      python model_load.py
+      python dataset_load.py
 5. Setup odo allocation
    ```bash
    salloc -A TRN040 -J SFT -t 1:00:00 -p batch -N 1
