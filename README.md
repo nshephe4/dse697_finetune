@@ -1,4 +1,7 @@
 # Policy Model Fine-Tuning and Evaluation
+## By Nathaniel Shepherd
+## For DSE 697 GenAI
+### Code referenced: https://github.com/0traced/frontier-finetuning
 
 [![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
@@ -48,7 +51,7 @@ Note: Will have to download the model and dataset locally before running on odo.
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/yourrepo.git
+   git clone https://github.com/nshephe4/dse697_finetune.git
    cd yourrepo
 
 2. Download packages
