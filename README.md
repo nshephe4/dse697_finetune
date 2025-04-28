@@ -13,6 +13,8 @@ This project fine-tunes and evaluates the **Meta Llama 3 8B-Instruct** model for
 
 The repository contains scripts for model fine-tuning, model testing, and a CSV file with comparison results between the base and fine-tuned models.
 
+Results were saved as csv as that allowed for easier viewing than .txt
+
 Note: Will have to download the model and dataset locally before running on odo.
 
 > _"Whatever you do, work heartily, as for the Lord and not for men." — Colossians 3:23_
@@ -29,6 +31,7 @@ Note: Will have to download the model and dataset locally before running on odo.
 |`test-subset-sample-data.csv` | 5 samples of the training set|
 | `requirements.txt` | Lists the Python dependencies needed to run the scripts. |
 | `model_comparison_results.csv` | Stores evaluation results comparing the base model and fine-tuned model. |
+| `results_sample.csv` | Stores evaluation results comparing the base model and fine-tuned model (top10 for viewing). |
 | `model_test.py` | Runs evaluation tests on the models and outputs results. |
 
 ---
