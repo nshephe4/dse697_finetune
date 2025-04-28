@@ -13,6 +13,8 @@ This project fine-tunes and evaluates the **Meta Llama 3 8B-Instruct** model for
 
 The repository contains scripts for model fine-tuning, model testing, and a CSV file with comparison results between the base and fine-tuned models.
 
+Note: Will have to download the model and dataset locally before running on odo.
+
 > _"Whatever you do, work heartily, as for the Lord and not for men." — Colossians 3:23_
 
 ---
