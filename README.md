@@ -42,3 +42,16 @@ The repository contains scripts for model fine-tuning, model testing, and a CSV 
    ```bash
    git clone https://github.com/yourusername/yourrepo.git
    cd yourrepo
+
+2. Download packages
+
+   ```bash
+   pip install -r requirements.txt
+
+3. Fine tune model
+   ```bash
+   python finetune.py
+
+4. Test and eval models
+   ```bash
+   python model_test.py
