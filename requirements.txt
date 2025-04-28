@@ -5,3 +5,5 @@ peft
 trl
 tensorboard
 huggingface_hub
+tqdm
+pandas
