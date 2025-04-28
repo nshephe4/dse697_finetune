@@ -15,7 +15,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 # Model and tokenizer names
 #base_model_name = "meta-llama/Llama-3.1-8B-Instruct"
 new_model_name = "llama-3.18b-policy"
-
+cached_dataset_path = "./data_cache/nace-ai___policy-alignment-verification-dataset"  # Path to cached dataset
 base_model_name = "./local_llama3_8b_instruct"  # ✅ Path to your local folder
 
 base_model = AutoModelForCausalLM.from_pretrained(
@@ -43,8 +43,11 @@ base_model.config.use_cache = False
 base_model.config.pretraining_tp = 1
 
 # Load dataset
-dataset_name = "nace-ai/policy-alignment-verification-dataset"
-training_data = load_dataset(dataset_name, split="test", cache_dir="data_cache")
+#dataset_name = "nace-ai/policy-alignment-verification-dataset"
+training_data  = load_dataset(
+    cached_dataset_path,
+    split="test"
+)
 
 print(training_data.shape)
 print(training_data[11])
